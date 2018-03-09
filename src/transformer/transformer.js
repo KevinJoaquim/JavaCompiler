@@ -5,6 +5,11 @@ module.exports = ast => {
 	while (expressions.length > 0) {
 		var current_expression = expressions.shift();
 		switch(current_expression.type){
+			case 'VariableIntExpression':
+				//check if variable name is well formed
+				//check if variable is used;
+				
+				break;
 			case 'VariableDeclarationExpression':
 				//check if variable name is well formed
 				//check if variable is used;

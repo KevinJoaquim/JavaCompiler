@@ -65,7 +65,32 @@ module.exports = input => {
 			throw `if you start a string ${cursor_y}:${cursor_x} ${char} you have to end it.`
 		}
         break
-		
+    
+      case '+':
+      addToken('plus', '+')
+      current++
+      break
+
+      case '-':
+      addToken('less', '-')
+      current++
+      break
+
+      case '*':
+      addToken('time', '*')
+      current++
+      break
+
+      case '{':
+      addToken('acoladeOuvrant', '{')
+      current++
+      break
+
+      case '}':
+      addToken('acoladeFermant', '}')
+      current++
+      break
+
       case '=':
         addToken('equal', '=')
         current++

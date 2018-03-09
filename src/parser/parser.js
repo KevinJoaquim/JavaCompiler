@@ -4,6 +4,22 @@ module.exports = tokens => {
 	while (tokens.length > 0) {
 		var current_token = tokens.shift();
 		switch(current_token.type){
+			
+			case 'variable-int-call':
+			var expression = {
+				type: 'VariableIntExpression',
+				value: ''
+			}
+			var next = tokens.shift();
+			current_token= next;
+			if(next.type==="identifier"){
+				expression.value= next.value;
+			}else{
+				throw 'You have to define a identifier for a variable.';
+			}
+			AST.body.push(expression);
+			break;
+
 			case 'variable-declaraction':
 				var expression = {
 					type: 'VariableDeclarationExpression',
