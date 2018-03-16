@@ -11,6 +11,7 @@ public class App
         int val1=3;
         
         int val2=6;
+        int val3 = 5;
         
         int somme = val2 / val1;
         
