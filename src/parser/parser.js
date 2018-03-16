@@ -17,6 +17,7 @@ module.exports = tokens => {
 			}else{
 				throw 'You have to define a identifier for a variable.';
 			}
+			
 			AST.body.push(expression);
 			break;
 
@@ -35,47 +36,13 @@ module.exports = tokens => {
 						case 'number':
 						case 'number-float':
 							expression.value = next.value;
+							endLine();
 						break;
 						case 'identifier':
 						val1 = nextValueVariable(next.value);
 						next = tokens.shift();
 							current_token= next;
-								if(next.type==="plus"){
-									next = tokens.shift();
-									current_token= next;
-									if(next.type==="identifier"){
-										val2 = nextValueVariable(next.value);
-										val3 = parseInt(val1) + parseInt(val2);
-										expression.value = val3;
-									}
-								}
-								if(next.type==="time"){
-									next = tokens.shift();
-									current_token= next;
-									if(next.type==="identifier"){
-										val2 = nextValueVariable(next.value);
-										val3 = parseInt(val1) * parseInt(val2);
-										expression.value = val3;
-									}
-								}
-								if(next.type==="less"){
-									next = tokens.shift();
-									current_token= next;
-									if(next.type==="identifier"){
-										val2 = nextValueVariable(next.value);
-										val3 = parseInt(val1) - parseInt(val2);
-										expression.value = val3;
-									}
-								}
-								if(next.type==="division"){
-									next = tokens.shift();
-									current_token= next;
-									if(next.type==="identifier"){
-										val2 = nextValueVariable(next.value);
-										val3 = parseInt(val1) / parseInt(val2);
-										expression.value = val3;
-									}
-								}
+						calcul(val1);
 									
 								
 						break;
@@ -115,11 +82,11 @@ module.exports = tokens => {
 									case 'number':
 									case 'number-float':
 									case 'identifier':
-										expression.arguments.push(next);	
+										expression.arguments.push(next);
 										break;
 									case 'parenthesis-end':
 										isEnding= true;
-										break
+										break;
 									case 'virgule':
 										break;
 									default:
@@ -127,7 +94,7 @@ module.exports = tokens => {
 								}
 							}while(next.type!="parenthesis-end" && tokens.length > 0);
 							if(!isEnding){
-								throw 'You have to close parenthesis whene you use method.';
+								throw 'You have to close parenthesis whene you use method or ;.';
 							}else{
 								AST.body.push(expression);
 							}
@@ -149,6 +116,57 @@ module.exports = tokens => {
 	}
 	return AST;
 
+	function endLine(){
+		next = tokens.shift();
+		current_token= next;
+		if(next.type != "instruction-end"){
+			throw 'il manque un " ; " à la position = ' + next.pos ;
+		}
+
+	}
+	function calcul(lastValue){
+		if(next.type==="plus"){
+			next = tokens.shift();
+			current_token= next;
+			if(next.type==="identifier"){
+				val2 = nextValueVariable(next.value);
+				val3 = parseInt(lastValue) + parseInt(val2);
+				expression.value = val3;
+				endLine();
+			}
+		}
+		if(next.type==="time"){
+			next = tokens.shift();
+			current_token= next;
+			if(next.type==="identifier"){
+				val2 = nextValueVariable(next.value);
+				val3 = parseInt(lastValue) * parseInt(val2);
+				expression.value = val3;
+				endLine();
+			}
+		}
+		if(next.type==="less"){
+			next = tokens.shift();
+			current_token= next;
+			if(next.type==="identifier"){
+				val2 = nextValueVariable(next.value);
+				val3 = parseInt(lastValue) - parseInt(val2);
+				expression.value = val3;
+				endLine();
+			}
+		}
+		if(next.type==="division"){
+			next = tokens.shift();
+			current_token= next;
+			if(next.type==="identifier"){
+				val2 = nextValueVariable(next.value);
+				val3 = parseInt(lastValue	) / parseInt(val2);
+				expression.value = val3;
+				endLine();
+			}
+		}
+
+	}
 
 	function nextValueVariable(nextValue){
 		for (let i = 0; i < AST.body.length; i++) {

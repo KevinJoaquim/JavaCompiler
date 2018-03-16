@@ -66,11 +66,6 @@ module.exports = input => {
 		}
         break
     
-      case 'variable':
-      addToken('plus', '+')
-      current++
-      break
-
       case '+':
       addToken('plus', '+')
       current++
