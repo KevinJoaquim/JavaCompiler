@@ -20,42 +20,35 @@ module.exports = tokens => {
 			AST.body.push(expression);
 			break;
 
-			case 'variable-declaraction':
-				var expression = {
-					type: 'VariableDeclarationExpression',
-					value: ''
-				}
-				var next = tokens.shift();
-				current_token= next;
-				if(next.type==="identifier"){
-					expression.value= next.value;
-				}else{
-					throw 'You have to define a identifier for a variable.';
-				}
-				AST.body.push(expression);
-				break;
 			case 'equal':
-				if(last_token.type=="identifier"){
+			var next = tokens.shift();
+					current_token= next;
+				if(last_token.type=="identifier" ){
 					var expression = {
 						type: 'VariableAssignationExpression',
 						identifier: last_token.value,
-						value: ''
+						value: current_token
 					}
-					var next = tokens.shift();
-					current_token= next;
+					
 					switch(next.type){
 						case 'object-string':
 						case 'number':
 						case 'number-float':
-							expression.value = next;
-							break;
+							expression.value = next.value;
+						break;
+						case 'identifier':
+						nextValueVariable(next.value);
+						break;
 						default:
 							throw 'You have to assigne a know type to variable '+last_token.value;
 					}
+					
 					AST.body.push(expression);
 					
 				}
 				break;
+
+
 			
 			case 'console-object':
 				var next = tokens.shift();
@@ -115,4 +108,15 @@ module.exports = tokens => {
 		last_token= current_token;
 	}
 	return AST;
+
+
+	function nextValueVariable(nextValue){
+		for (let i = 0; i < AST.body.length; i++) {
+			if(AST.body[i].identifier == nextValue ){
+				expression.value = AST.body[i].value;
+			}
+		}		
+		return expression.value;
+	}
+
 }

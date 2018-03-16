@@ -8,14 +8,11 @@ public class App
     public static void main( String[] args )
     {
         System.out.println( "Hello World!" );
-        Scanner sc = new Scanner(System.in);
-        System.out.println("Saisissez un entier : ");
-        int val1 = sc.nextInt();
+        int val1=3;
         
-        System.out.println("Saisissez un autre entier : ");
-        int val2 = sc.nextInt();
+        int val2=6;
         
-        int somme = val1 + val2;
+        int somme = val2;
         
         System.out.println(val1+" + "+ val2 + " = " + somme);
     }
