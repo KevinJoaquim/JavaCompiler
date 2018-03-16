@@ -81,6 +81,11 @@ module.exports = input => {
       current++
       break
 
+      case '/':
+      addToken('division', '/')
+      current++
+      break
+
       case '*':
       addToken('time', '*')
       current++

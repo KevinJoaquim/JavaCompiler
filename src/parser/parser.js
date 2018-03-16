@@ -37,7 +37,47 @@ module.exports = tokens => {
 							expression.value = next.value;
 						break;
 						case 'identifier':
-						nextValueVariable(next.value);
+						val1 = nextValueVariable(next.value);
+						next = tokens.shift();
+							current_token= next;
+								if(next.type==="plus"){
+									next = tokens.shift();
+									current_token= next;
+									if(next.type==="identifier"){
+										val2 = nextValueVariable(next.value);
+										val3 = parseInt(val1) + parseInt(val2);
+										expression.value = val3;
+									}
+								}
+								if(next.type==="time"){
+									next = tokens.shift();
+									current_token= next;
+									if(next.type==="identifier"){
+										val2 = nextValueVariable(next.value);
+										val3 = parseInt(val1) * parseInt(val2);
+										expression.value = val3;
+									}
+								}
+								if(next.type==="less"){
+									next = tokens.shift();
+									current_token= next;
+									if(next.type==="identifier"){
+										val2 = nextValueVariable(next.value);
+										val3 = parseInt(val1) - parseInt(val2);
+										expression.value = val3;
+									}
+								}
+								if(next.type==="division"){
+									next = tokens.shift();
+									current_token= next;
+									if(next.type==="identifier"){
+										val2 = nextValueVariable(next.value);
+										val3 = parseInt(val1) / parseInt(val2);
+										expression.value = val3;
+									}
+								}
+									
+								
 						break;
 						default:
 							throw 'You have to assigne a know type to variable '+last_token.value;
