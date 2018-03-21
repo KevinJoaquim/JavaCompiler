@@ -4,6 +4,90 @@ module.exports = tokens => {
 	while (tokens.length > 0) {
 		var current_token = tokens.shift();
 		switch(current_token.type){
+			case 'package-project':
+			var next = tokens.shift();
+				current_token= next;
+				if(next.type==="identifier"){
+					var expression = {
+						type: 'PackageExpression',
+						value: ''
+					}
+						expression.value= next.value;
+						next = tokens.shift();
+						current_token= next;
+						if(next.type==="point"){
+							var isEnding= false;
+							expression.value= expression.value + next.value ;
+							do{
+								next= tokens.shift();
+								current_token= next;
+								switch(next.type){
+									case 'identifier':
+										expression.value=expression.value + next.value ;
+										break;
+									case 'instruction-end':
+										isEnding= true;
+										break;
+									case 'point':
+										expression.value=expression.value + next.value ;
+										break;
+									default:
+										throw 'Error of using arguments or instruction-end ;';
+								}
+							}while(next.type!="instruction-end" && tokens.length > 0);
+							if(!isEnding){
+								throw 'You have to close package ;';
+							}else{
+								AST.body.push(expression);
+							}
+						}else if(next.type!=="instruction-end" || next.type === ""){
+							throw 'You have to close package ; or is null ';
+						}						
+				}
+			break;
+
+			case 'import-call':
+			var next = tokens.shift();
+				current_token= next;
+				if(next.type==="identifier"){
+					var expression = {
+						type: 'ImportExpression',
+						value: ''
+					}
+						expression.value= next.value;
+						next = tokens.shift();
+						current_token= next;
+						if(next.type==="point"){
+							var isEnding= false;
+							expression.value= expression.value + next.value ;
+							do{
+								next= tokens.shift();
+								current_token= next;
+								switch(next.type){
+									case 'identifier':
+										expression.value=expression.value + next.value ;
+										break;
+									case 'instruction-end':
+										isEnding= true;
+										break;
+									case 'point':
+										expression.value=expression.value + next.value ;
+										break;
+									default:
+										throw 'Error of using arguments or instruction-end ;';
+								}
+							}while(next.type!="instruction-end" && tokens.length > 0);
+							if(!isEnding){
+								throw 'You have to close import ;';
+							}else{
+								AST.body.push(expression);
+							}
+						}else if(next.type!=="instruction-end" || next.type === ""){
+							throw 'You have to close import ; or is null ';
+						}						
+				}
+			break;
+
 			
 			case 'variable-int-call':
 			var expression = {

@@ -14,20 +14,31 @@ module.exports = ast => {
 					etat = "VariableIntExpression " + current_expression.value + " débute avec une majuscule";
 				}else if(current_expression.value.substr(0,current_expression.value.length).toUpperCase()===current_expression.value.substr(0,current_expression.value.length)){
 					note = note - 1;
-					etat = "VariableIntExpression " + current_expression.value + " contient une majuscule une majuscule";
+					etat = "VariableIntExpression " + current_expression.value + " contient une majuscule";
 				}
-				
-
-
 				break;
-			case 'VariableDeclarationExpression':
-				//check if variable name is well formed
-				//check if variable is used;
-				
-				break;
+
 			case 'VariableAssignationExpression':
-				//check if variable is declared;
+				if(current_expression.value === ""){
+					etat = "il n'y a pas de valeur après l'equal ";
+					note = note - 1;
+				}
 				break;
+
+			case 'PackageExpression':
+				if(current_expression.value.substr(0,current_expression.value.length).toUpperCase()===current_expression.value.substr(0,current_expression.value.length)){
+					note = note - 1;
+					etat = "packageExpression " + current_expression.value + " contient une majuscule";
+				}
+				break;
+
+			case 'ImportExpression':
+				if(current_expression.value.substr(0,current_expression.value.length).toUpperCase()===current_expression.value.substr(0,current_expression.value.length)){
+					note = note - 1;
+					etat = "ImportExpression " + current_expression.value + " contient une majuscule";
+				}
+				break;
+
 				
 			case 'ConsoleUseMethodeExpression':
 				//check if methode exist
@@ -35,6 +46,7 @@ module.exports = ast => {
 				break;
 		}
 		rapport.push({ 'type' : current_expression.type,
+					   'value' : current_expression.value,
 					   'note' : note,
 					   'etat' : etat
 					});
