@@ -9,7 +9,8 @@ public class App
     {
         System.out.println( "Hello World!" );
         int val1=3;
-        
+        String str = "test";
+        float fl = 3;
         int val2=6;
         int val3 = 5;
         

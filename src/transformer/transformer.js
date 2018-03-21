@@ -8,7 +8,7 @@ module.exports = ast => {
 		var etat = "ok";
 		var current_expression = expressions.shift();
 		switch(current_expression.type){
-			case 'VariableIntExpression':
+			case 'variableDeclatationExpression':
 				if(current_expression.value.substr(0,1).toUpperCase()===current_expression.value.substr(0,1)){
 					note = note - 1;
 					etat = "VariableIntExpression " + current_expression.value + " débute avec une majuscule";
@@ -39,11 +39,20 @@ module.exports = ast => {
 				}
 				break;
 
-				
-			case 'ConsoleUseMethodeExpression':
-				//check if methode exist
-				//check arguments 
+			case 'publicClassExpression':
+				if(current_expression.value.substr(0,1).toUpperCase()!==current_expression.value.substr(0,1)){
+					note = note - 1;
+					etat = "publicClassExpression " + current_expression.value + " la premiere lettre de la class ne contient pas de majuscule";
+				}
 				break;
+
+			case 'publicStaticVoidExpression':
+				if(current_expression.value.substr(0,1).toUpperCase()===current_expression.value.substr(0,1)){
+					note = note - 1;
+					etat = "publicStaticVoidExpression " + current_expression.value + " la premiere lettre de la class contient un majuscule";
+				}
+				break;
+
 		}
 		rapport.push({ 'type' : current_expression.type,
 					   'value' : current_expression.value,

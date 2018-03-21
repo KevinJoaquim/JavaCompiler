@@ -88,21 +88,82 @@ module.exports = tokens => {
 				}
 			break;
 
-			
-			case 'variable-int-call':
-			var expression = {
-				type: 'VariableIntExpression',
-				value: ''
-			}
-			var next = tokens.shift();
-			current_token= next;
-			if(next.type==="identifier"){
-				expression.value= next.value;
-			}else{
-				throw 'You have to define a identifier for a variable.';
-			}
-			
-			AST.body.push(expression);
+			case 'public-class':
+				var expression = {
+					type: 'publicClassExpression',
+					value: '',
+				}
+				var next = tokens.shift();
+				current_token= next;
+				if(next.type==="identifier"){
+					expression.value= next.value;				
+					AST.body.push(expression);
+				}else{
+					throw 'Error of using name class.';
+				}
+			break;
+
+			case 'public-static-void':
+				var expression = {
+					type: 'publicStaticVoidExpression',
+					value: '',
+					arguments:[],
+				}
+				var next = tokens.shift();
+				current_token= next;
+				if(next.type==="identifier"){
+					expression.value= next.value;
+					var next = tokens.shift();
+					current_token= next;
+					if(next.type==="parenthesis-start"){
+						var isEnding= false;
+						do{
+							next= tokens.shift();
+							current_token= next;
+							switch(next.type){
+								case 'object-string':
+								case 'identifier':
+									expression.arguments.push(next);
+									break;
+								case 'parenthesis-end':
+									isEnding= true;
+									break;
+								case 'virgule':
+									break;
+								default:
+									throw 'Error of using arguments or close parenthesis';
+							}
+						}while(next.type!="parenthesis-end" && tokens.length > 0);
+						if(!isEnding){
+							throw 'You have to close parenthesis.';
+						}else{
+							AST.body.push(expression);
+						}
+
+					}else{
+						throw 'You have to open (.';
+					}				
+					AST.body.push(expression);
+				}else{
+					throw 'Error of using name public static .';
+				}
+			break;
+
+			case 'variable-declaration-call':
+				var expression = {
+					type: 'variableDeclatationExpression',
+					value: '',
+				}
+				var next = tokens.shift();
+				current_token= next;
+				if(next.type==="identifier"){
+					expression.value= next.value;
+
+				}else{
+					throw 'You have to define a identifier for a variable.';
+				}
+				
+				AST.body.push(expression);
 			break;
 
 			case 'equal':
