@@ -1,8 +1,8 @@
 const keywords = {
-  'variable-declaration-call': { r: /(int\s)/, s: 'int' },
   'variable-declaration-call': { r: /(float\s)/, s: 'float' },
   'variable-declaration-call': { r: /(double\s)/, s: 'double' },
   'variable-declaration-call': { r: /(String\s)/, s: 'string' },
+  'variable-declaration-call': { r: /(int\s)/, s: 'int' },
   'import-call': { r: /(import)/, s: 'import' },
   'package-project': { r: /(package)/, s: 'package' },
   'system-object': { r: /(System.out)/, s: 'System.out' },

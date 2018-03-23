@@ -30,8 +30,13 @@ module.exports = tokens => {
 									break;
 								case 'point':
 									expression.value = expression.value + next.value;
-									if(tokens.shift().type==='instruction-end'){
+									next = tokens.shift();
+
+									if (next.type === 'instruction-end') {
+
 										throw 'Error of using arguments or instruction-end ;';
+									} else {
+										expression.value = expression.value + next.value;
 									}
 
 									break;
@@ -76,9 +81,15 @@ module.exports = tokens => {
 									break;
 								case 'point':
 									expression.value = expression.value + next.value;
-									if(tokens.shift().type==='instruction-end'){
+									next = tokens.shift();
+
+									if (next.type === 'instruction-end') {
+
 										throw 'Error of using arguments or instruction-end ;';
+									} else {
+										expression.value = expression.value + next.value;
 									}
+
 									break;
 								default:
 									throw 'Error of using arguments or instruction-end ;';
