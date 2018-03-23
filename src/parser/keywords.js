@@ -6,7 +6,7 @@ const keywords = {
   'variable-declaration-call': { r: /(String\s)/, s: 'string' },
   'import-call': { r: /(import)/, s: 'import' },
   'package-project': { r: /(package)/, s: 'package' },
-  'console-object': { r: /(console)/, s: 'console' },
+  'system-object': { r: /(System.out)/, s: 'System.out' },
   'public-class': { r: /(public)\s(class)/, s: 'public class' },
   'public-static-void': { r: /(public)\s(static)\s(void)\s/, s: 'public static void' }
 };
