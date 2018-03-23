@@ -250,6 +250,7 @@ module.exports = tokens => {
 							if (!isEnding) {
 								throw 'You have to close parenthesis whene you use method or ;.';
 							} else {
+								endLine()
 								AST.body.push(expression);
 							}
 						} else {
